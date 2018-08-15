@@ -130,7 +130,7 @@ class MainWindow(QMainWindow, WindowMixin):
         listLayout = QVBoxLayout()
         listLayout.setContentsMargins(0, 0, 0, 0)
 
-        # Create a widget for using default label
+        # lxml
         self.useDefaultLabelCheckbox = QCheckBox(u'Use default label')
         self.useDefaultLabelCheckbox.setChecked(False)
         self.defaultLabelTextLine = QLineEdit()
@@ -232,14 +232,14 @@ class MainWindow(QMainWindow, WindowMixin):
         openPrevImg = action('&Prev Image', self.openPrevImg,
                              'a', 'prev', u'Open Prev')
 
-        verify = action('&Verify Image', self.verifyImg,
-                        'space', 'verify', u'Verify Image')
+        #verify = action('&Verify Image', self.verifyImg,
+        #                'space', 'verify', u'Verify Image')
 
         save = action('&Save', self.saveFile,
                       'Ctrl+S', 'save', u'Save labels to file', enabled=False)
 
-        save_format = action('&PascalVOC', self.change_format,
-                      'Ctrl+', 'format_voc', u'Change save format', enabled=True)
+        #save_format = action('&PascalVOC', self.change_format,
+         #             'Ctrl+', 'format_voc', u'Change save format', enabled=True)
 
         saveAs = action('&Save As', self.saveFileAs,
                         'Ctrl+Shift+S', 'save-as', u'Save labels to a different file', enabled=False)
@@ -260,22 +260,22 @@ class MainWindow(QMainWindow, WindowMixin):
                         'w', 'new', u'Draw a new Box', enabled=False)
         delete = action('Delete\nRectBox', self.deleteSelectedShape,
                         'Delete', 'delete', u'Delete', enabled=False)
-        copy = action('&Duplicate\nRectBox', self.copySelectedShape,
-                      'Ctrl+D', 'copy', u'Create a duplicate of the selected Box',
-                      enabled=False)
+        # copy = action('&Duplicate\nRectBox', self.copySelectedShape,
+        #               'Ctrl+D', 'copy', u'Create a duplicate of the selected Box',
+        #               enabled=False)
 
-        advancedMode = action('&Advanced Mode', self.toggleAdvancedMode,
-                              'Ctrl+Shift+A', 'expert', u'Switch to advanced mode',
-                              checkable=True)
+        # advancedMode = action('&Advanced Mode', self.toggleAdvancedMode,
+        #                       'Ctrl+Shift+A', 'expert', u'Switch to advanced mode',
+        #                       checkable=True)
 
-        hideAll = action('&Hide\nRectBox', partial(self.togglePolygons, False),
-                         'Ctrl+H', 'hide', u'Hide all Boxs',
-                         enabled=False)
-        showAll = action('&Show\nRectBox', partial(self.togglePolygons, True),
-                         'Ctrl+A', 'hide', u'Show all Boxs',
-                         enabled=False)
+        # hideAll = action('&Hide\nRectBox', partial(self.togglePolygons, False),
+        #                  'Ctrl+H', 'hide', u'Hide all Boxs',
+        #                  enabled=False)
+        # showAll = action('&Show\nRectBox', partial(self.togglePolygons, True),
+        #                  'Ctrl+A', 'hide', u'Show all Boxs',
+        #                  enabled=False)
 
-        help = action('&Tutorial', self.showTutorialDialog, None, 'help', u'Show demos')
+        # help = action('&Tutorial', self.showTutorialDialog, None, 'help', u'Show demos')
         showInfo = action('&Information', self.showInfoDialog, None, 'help', u'Information')
 
         zoom = QWidgetAction(self)
@@ -286,21 +286,21 @@ class MainWindow(QMainWindow, WindowMixin):
                                              fmtShortcut("Ctrl+Wheel")))
         self.zoomWidget.setEnabled(False)
 
-        zoomIn = action('Zoom &In', partial(self.addZoom, 10),
-                        'Ctrl++', 'zoom-in', u'Increase zoom level', enabled=False)
-        zoomOut = action('&Zoom Out', partial(self.addZoom, -10),
-                         'Ctrl+-', 'zoom-out', u'Decrease zoom level', enabled=False)
-        zoomOrg = action('&Original size', partial(self.setZoom, 100),
-                         'Ctrl+=', 'zoom', u'Zoom to original size', enabled=False)
-        fitWindow = action('&Fit Window', self.setFitWindow,
-                           'Ctrl+F', 'fit-window', u'Zoom follows window size',
-                           checkable=True, enabled=False)
-        fitWidth = action('Fit &Width', self.setFitWidth,
-                          'Ctrl+Shift+F', 'fit-width', u'Zoom follows window width',
-                          checkable=True, enabled=False)
+        # zoomIn = action('Zoom &In', partial(self.addZoom, 10),
+        #                 'Ctrl++', 'zoom-in', u'Increase zoom level', enabled=False)
+        # zoomOut = action('&Zoom Out', partial(self.addZoom, -10),
+        #                  'Ctrl+-', 'zoom-out', u'Decrease zoom level', enabled=False)
+        # zoomOrg = action('&Original size', partial(self.setZoom, 100),
+        #                  'Ctrl+=', 'zoom', u'Zoom to original size', enabled=False)
+        # fitWindow = action('&Fit Window', self.setFitWindow,
+        #                    'Ctrl+F', 'fit-window', u'Zoom follows window size',
+        #                    checkable=True, enabled=False)
+        # fitWidth = action('Fit &Width', self.setFitWidth,
+        #                   'Ctrl+Shift+F', 'fit-width', u'Zoom follows window width',
+        #                   checkable=True, enabled=False)
         # Group zoom controls into a list for easier toggling.
-        zoomActions = (self.zoomWidget, zoomIn, zoomOut,
-                       zoomOrg, fitWindow, fitWidth)
+        zoomActions = (self.zoomWidget,
+                       )
         self.zoomMode = self.MANUAL_ZOOM
         self.scalers = {
             self.FIT_WINDOW: self.scaleFitWindow,
@@ -321,9 +321,9 @@ class MainWindow(QMainWindow, WindowMixin):
                                 icon='color', tip=u'Change the fill color for this specific shape',
                                 enabled=False)
 
-        labels = self.dock.toggleViewAction()
-        labels.setText('Show/Hide Label Panel')
-        labels.setShortcut('Ctrl+Shift+L')
+        # labels = self.dock.toggleViewAction()
+        # labels.setText('Show/Hide Label Panel')
+        # labels.setShortcut('Ctrl+Shift+L')
 
         # Lavel list context menu.
         labelMenu = QMenu()
@@ -333,30 +333,29 @@ class MainWindow(QMainWindow, WindowMixin):
             self.popLabelListMenu)
 
         # Store actions for further handling.
-        self.actions = struct(save=save, save_format=save_format, saveAs=saveAs, open=open, close=close, resetAll = resetAll,
-                              lineColor=color1, create=create, delete=delete, edit=edit, copy=copy,
-                              createMode=createMode, editMode=editMode, advancedMode=advancedMode,
+        self.actions = struct(save=save,  saveAs=saveAs, open=open, close=close, resetAll = resetAll,
+                              lineColor=color1, create=create, delete=delete, edit=edit,
+                              createMode=createMode, editMode=editMode,
                               shapeLineColor=shapeLineColor, shapeFillColor=shapeFillColor,
-                              zoom=zoom, zoomIn=zoomIn, zoomOut=zoomOut, zoomOrg=zoomOrg,
-                              fitWindow=fitWindow, fitWidth=fitWidth,
+                              zoom=zoom,
                               zoomActions=zoomActions,
                               fileMenuActions=(
                                   open, opendir, save, saveAs, close, resetAll, quit),
                               beginner=(), advanced=(),
-                              editMenu=(edit, copy, delete,
+                              editMenu=(edit, delete,
                                         None, color1),
-                              beginnerContext=(create, edit, copy, delete),
-                              advancedContext=(createMode, editMode, edit, copy,
+                              beginnerContext=(create, edit,  delete),
+                              advancedContext=(createMode, editMode, edit,
                                                delete, shapeLineColor, shapeFillColor),
                               onLoadActive=(
                                   close, create, createMode, editMode),
-                              onShapesPresent=(saveAs, hideAll, showAll))
+                              onShapesPresent=(saveAs,))
 
         self.menus = struct(
-            file=self.menu('&File'),
-            edit=self.menu('&Edit'),
+            # file=self.menu('&File'),
+            # edit=self.menu('&Edit'),
             view=self.menu('&View'),
-            help=self.menu('&Help'),
+            # help=self.menu('&Help'),
             recentFiles=QMenu('Open &Recent'),
             labelList=labelMenu)
 
@@ -377,19 +376,19 @@ class MainWindow(QMainWindow, WindowMixin):
         self.paintLabelsOption.setChecked(settings.get(SETTING_PAINT_LABEL, False))
         self.paintLabelsOption.triggered.connect(self.togglePaintLabelsOption)
 
-        addActions(self.menus.file,
-                   (open, opendir, changeSavedir, openAnnotation, self.menus.recentFiles, save, save_format, saveAs, close, resetAll, quit))
-        addActions(self.menus.help, (help, showInfo))
+        # addActions(self.menus.file,
+        #            (open, opendir, changeSavedir, openAnnotation, self.menus.recentFiles, save,  saveAs, close, resetAll, quit))
+        # addActions(self.menus.help, (help, showInfo))
         addActions(self.menus.view, (
             self.autoSaving,
-            self.singleClassMode,
-            self.paintLabelsOption,
-            labels, advancedMode, None,
-            hideAll, showAll, None,
-            zoomIn, zoomOut, zoomOrg, None,
-            fitWindow, fitWidth))
+            # self.singleClassMode,
+            # self.paintLabelsOption,
+             None,
+            None,
+             None,
+           ))
 
-        self.menus.file.aboutToShow.connect(self.updateFileMenu)
+        # self.menus.file.aboutToShow.connect(self.updateFileMenu)
 
         # Custom context menu for the canvas widget:
         addActions(self.canvas.menus[0], self.actions.beginnerContext)
@@ -399,13 +398,13 @@ class MainWindow(QMainWindow, WindowMixin):
 
         self.tools = self.toolbar('Tools')
         self.actions.beginner = (
-            open, opendir, changeSavedir, openNextImg, openPrevImg, verify, save, save_format, None, create, copy, delete, None,
-            zoomIn, zoom, zoomOut, fitWindow, fitWidth)
+            open, opendir, changeSavedir, openNextImg, openPrevImg,  save,  None, create,  delete, None,
+            zoom, )
 
         self.actions.advanced = (
-            open, opendir, changeSavedir, openNextImg, openPrevImg, save, save_format, None,
+            open, opendir, changeSavedir, openNextImg, openPrevImg, save,  None,
             createMode, editMode, None,
-            hideAll, showAll)
+            )
 
         self.statusBar().showMessage('%s started.' % __appname__)
         self.statusBar().show()
@@ -496,9 +495,9 @@ class MainWindow(QMainWindow, WindowMixin):
             self.usingYoloFormat = True
             LabelFile.suffix = TXT_EXT
 
-    def change_format(self):
-        if self.usingPascalVocFormat: self.set_format(FORMAT_YOLO)
-        elif self.usingYoloFormat: self.set_format(FORMAT_PASCALVOC)
+    # def change_format(self):
+    #     if self.usingPascalVocFormat: self.set_format(FORMAT_YOLO)
+    #     elif self.usingYoloFormat: self.set_format(FORMAT_PASCALVOC)
 
     def noShapes(self):
         return not self.itemsToShapes
@@ -524,10 +523,10 @@ class MainWindow(QMainWindow, WindowMixin):
         addActions(self.tools, tool)
         self.canvas.menus[0].clear()
         addActions(self.canvas.menus[0], menu)
-        self.menus.edit.clear()
+        # self.menus.edit.clear()
         actions = (self.actions.create,) if self.beginner()\
             else (self.actions.createMode, self.actions.editMode)
-        addActions(self.menus.edit, actions + self.actions.editMenu)
+        # addActions(self.menus.edit, actions + self.actions.editMenu)
 
     def setBeginner(self):
         self.tools.clear()
@@ -599,8 +598,8 @@ class MainWindow(QMainWindow, WindowMixin):
             return ['open', '-a', 'Safari']
 
     ## Callbacks ##
-    def showTutorialDialog(self):
-        subprocess.Popen(self.screencastViewer + [self.screencast])
+    # def showTutorialDialog(self):
+    #     subprocess.Popen(self.screencastViewer + [self.screencast])
 
     def showInfoDialog(self):
         msg = u'Name:{0} \nApp Version:{1} \n{2} '.format(__appname__, __version__, sys.version_info)
@@ -797,10 +796,10 @@ class MainWindow(QMainWindow, WindowMixin):
             self.errorMessage(u'Error saving label data', u'<b>%s</b>' % e)
             return False
 
-    def copySelectedShape(self):
-        self.addLabel(self.canvas.copySelectedShape())
-        # fix copy and delete
-        self.shapeSelectionChanged(True)
+    # def copySelectedShape(self):
+    #     self.addLabel(self.canvas.copySelectedShape())
+    #     # fix copy and delete
+    #     self.shapeSelectionChanged(True)
 
     def labelSelectionChanged(self):
         item = self.currentItem()
@@ -1181,23 +1180,23 @@ class MainWindow(QMainWindow, WindowMixin):
             item = QListWidgetItem(imgPath)
             self.fileListWidget.addItem(item)
 
-    def verifyImg(self, _value=False):
-        # Proceding next image without dialog if having any label
-         if self.filePath is not None:
-            try:
-                self.labelFile.toggleVerify()
-            except AttributeError:
-                # If the labelling file does not exist yet, create if and
-                # re-save it with the verified attribute.
-                self.saveFile()
-                if self.labelFile != None:
-                    self.labelFile.toggleVerify()
-                else:
-                    return
-
-            self.canvas.verified = self.labelFile.verified
-            self.paintCanvas()
-            self.saveFile()
+    # def verifyImg(self, _value=False):
+    #     # Proceding next image without dialog if having any label
+    #      if self.filePath is not None:
+    #         try:
+    #             self.labelFile.toggleVerify()
+    #         except AttributeError:
+    #             # If the labelling file does not exist yet, create if and
+    #             # re-save it with the verified attribute.
+    #             self.saveFile()
+    #             if self.labelFile != None:
+    #                 self.labelFile.toggleVerify()
+    #             else:
+    #                 return
+    #
+    #         self.canvas.verified = self.labe1lFile.verified
+    #         self.paintCanvas()
+    #         self.saveFile()
 
     def openPrevImg(self, _value=False):
         # Proceding prev image without dialog if having any label
