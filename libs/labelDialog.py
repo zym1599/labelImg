@@ -13,7 +13,7 @@ BB = QDialogButtonBox
 
 class LabelDialog(QDialog):
 
-    def __init__(self, text="Enter object label", parent=None, listItem=None):
+    def __init__(self, text="Inserir a etiqueta de objeto", parent=None, listItem=None):
         super(LabelDialog, self).__init__(parent)
 
         self.edit = QLineEdit()
