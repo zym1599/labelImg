@@ -131,7 +131,7 @@ class MainWindow(QMainWindow, WindowMixin):
         listLayout.setContentsMargins(0, 0, 0, 0)
 
         # Create a widget for using default label
-        self.useDefaultLabelCheckbox = QCheckBox(u'Use default label')
+        self.useDefaultLabelCheckbox = QCheckBox(u'Usar etiqueta predefinida')
         self.useDefaultLabelCheckbox.setChecked(False)
         self.defaultLabelTextLine = QLineEdit()
         useDefaultLabelQHBoxLayout = QHBoxLayout()
@@ -141,7 +141,7 @@ class MainWindow(QMainWindow, WindowMixin):
         useDefaultLabelContainer.setLayout(useDefaultLabelQHBoxLayout)
 
         # Create a widget for edit and diffc button
-        self.diffcButton = QCheckBox(u'difficult')
+        self.diffcButton = QCheckBox(u'Difícil')
         self.diffcButton.setChecked(False)
         self.diffcButton.stateChanged.connect(self.btnstate)
         self.editButton = QToolButton()
@@ -163,8 +163,8 @@ class MainWindow(QMainWindow, WindowMixin):
         self.labelList.itemChanged.connect(self.labelItemChanged)
         listLayout.addWidget(self.labelList)
 
-        self.dock = QDockWidget(u'Box Labels', self)
-        self.dock.setObjectName(u'Labels')
+        self.dock = QDockWidget(u'Etiquetas de caixa', self)
+        self.dock.setObjectName(u'Etiqueta')
         self.dock.setWidget(labelListContainer)
 
         # Tzutalin 20160906 : Add file list and dock to move faster
@@ -175,8 +175,8 @@ class MainWindow(QMainWindow, WindowMixin):
         filelistLayout.addWidget(self.fileListWidget)
         fileListContainer = QWidget()
         fileListContainer.setLayout(filelistLayout)
-        self.filedock = QDockWidget(u'File List', self)
-        self.filedock.setObjectName(u'Files')
+        self.filedock = QDockWidget(u'Lista de arquivo', self)
+        self.filedock.setObjectName(u'Arquivos')
         self.filedock.setWidget(fileListContainer)
 
         self.zoomWidget = ZoomWidget()
@@ -211,92 +211,91 @@ class MainWindow(QMainWindow, WindowMixin):
 
         # Actions
         action = partial(newAction, self)
-        quit = action('&Quit', self.close,
-                      'Ctrl+Q', 'quit', u'Quit application')
+        quit = action('&Abandonar', self.close,
+                      'Ctrl+Q', 'Abandonar', u'Abandonar a aplicação')
 
-        open = action('&Open', self.openFile,
-                      'Ctrl+O', 'open', u'Open image or label file')
+        open = action('&Abrir', self.openFile,
+                      'Ctrl+O', 'Abrir', u'Abrir a imagem ou arquivo de etiqueta')
 
-        opendir = action('&Open Dir', self.openDirDialog,
-                         'Ctrl+u', 'open', u'Open Dir')
+        opendir = action('&Abrir diretório', self.openDirDialog, 'Ctrl+u', 'Abrir', u'Abrir diretório')
 
-        changeSavedir = action('&Change Save Dir', self.changeSavedirDialog,
-                               'Ctrl+r', 'open', u'Change default saved Annotation dir')
+        changeSavedir = action('&Alterar o diretório de salvamento', self.changeSavedirDialog,
+                               'Ctrl+r', 'Abrir', u'Alterar o diretório predefinido de salvamento de anotação')
 
-        openAnnotation = action('&Open Annotation', self.openAnnotationDialog,
-                                'Ctrl+Shift+O', 'open', u'Open Annotation')
+        openAnnotation = action('&Abrir anotação', self.openAnnotationDialog,
+                                'Ctrl+Shift+O', 'Abrir', u'Abrir anotação')
 
-        openNextImg = action('&Next Image', self.openNextImg,
-                             'd', 'next', u'Open Next')
+        openNextImg = action('&Próxima imagem', self.openNextImg,
+                             'd', 'Próximo', u'Próxima imagem')
 
-        openPrevImg = action('&Prev Image', self.openPrevImg,
-                             'a', 'prev', u'Open Prev')
+        openPrevImg = action('&A imagem anterior', self.openPrevImg,
+                             'a', 'Anterior', u'Abrir o anterior')
 
         # verify = action('&Verify Image', self.verifyImg,
         #                 'space', 'verify', u'Verify Image')
 
-        save = action('&Save', self.saveFile,
-                      'Ctrl+S', 'save', u'Save labels to file', enabled=False)
+        save = action('&Salvar', self.saveFile,
+                      'Ctrl+S', 'Salvar', u'Salvar etiquetas para um arquivo', enabled=False)
 
         #save_format = action('&PascalVOC', self.change_format,
         #              'Ctrl+', 'format_voc', u'Change save format', enabled=True)
 
-        saveAs = action('&Save As', self.saveFileAs,
-                        'Ctrl+Shift+S', 'save-as', u'Save labels to a different file', enabled=False)
+        saveAs = action('&Salvar como', self.saveFileAs,
+                        'Ctrl+Shift+S', 'Salvar como', u'Salvar etiquetas para um arquivo diferente', enabled=False)
 
-        close = action('&Close', self.closeFile, 'Ctrl+W', 'close', u'Close current file')
+        close = action('&Fechar', self.closeFile, 'Ctrl+W', 'Fechar', u'Fechar o arquivo atual')
 
-        resetAll = action('&ResetAll', self.resetAll, None, 'resetall', u'Reset all')
+        resetAll = action('&Reconfigurar tudo', self.resetAll, None, 'Reconfigurar tudo', u'Reconfigurar tudo')
 
-        color1 = action('Box Line Color', self.chooseColor1,
-                        'Ctrl+L', 'color_line', u'Choose Box line color')
+        color1 = action('Cor de linha de caixa', self.chooseColor1,
+                        'Ctrl+L', 'Cor de linha', u'Selecionar a cor de linha de caixa')
 
-        createMode = action('Create\nRectBox', self.setCreateMode,
-                            'w', 'new', u'Start drawing Boxs', enabled=False)
-        editMode = action('&Edit\nRectBox', self.setEditMode,
-                          'Ctrl+J', 'edit', u'Move and edit Boxs', enabled=False)
+        createMode = action('Criar\ncaixa rectangular ', self.setCreateMode,
+                            'w', 'Novo', u'Começar a desenhar caixas', enabled=False)
+        editMode = action('&Editar\ncaixa rectangular', self.setEditMode,
+                          'Ctrl+J', 'Editar', u'Mover e editar caixas', enabled=False)
 
-        create = action('Create\nRectBox', self.createShape,
-                        'w', 'new', u'Draw a new Box', enabled=False)
-        delete = action('Delete\nRectBox', self.deleteSelectedShape,
-                        'Delete', 'delete', u'Delete', enabled=False)
-        #copy = action('&Duplicate\nRectBox', self.copySelectedShape,
-        #              'Ctrl+D', 'copy', u'Create a duplicate of the selected Box',
-        #              enabled=False)
+        create = action('Criar\nCaixa rectangular', self.createShape,
+                        'w', 'Novo', u'Desenhar uma caixa nova', enabled=False)
+        delete = action('Apagar\nCaixa rectangular', self.deleteSelectedShape,
+                        'Apagar', 'Apagar', u'Apagar', enabled=False)
+        copy = action('&Duplicate\nCaixa rectangular', self.copySelectedShape,
+                      'Ctrl+D', 'Copiar', u'Criar uma duplicata da caixa selecionada',
+                      enabled=False)
 
-        advancedMode = action('&Advanced Mode', self.toggleAdvancedMode,
-                              'Ctrl+Shift+A', 'expert', u'Switch to advanced mode',
+        advancedMode = action('&Modo avançado', self.toggleAdvancedMode,
+                              'Ctrl+Shift+A', 'especialista', u'Alterar para o modo avançado',
                               checkable=True)
 
-        hideAll = action('&Hide\nRectBox', partial(self.togglePolygons, False),
-                         'Ctrl+H', 'hide', u'Hide all Boxs',
+        hideAll = action('&Esconder\ncaixa rectangular', partial(self.togglePolygons, False),
+                         'Ctrl+H', 'Esconder', u'Ocultar todas as caixas',
                          enabled=False)
-        showAll = action('&Show\nRectBox', partial(self.togglePolygons, True),
-                         'Ctrl+A', 'hide', u'Show all Boxs',
+        showAll = action('&Mostrar\nRectBox', partial(self.togglePolygons, True),
+                         'Ctrl+A', 'Esconder', u'Mostrar todas as caixas',
                          enabled=False)
 
      #   help = action('&Tutorial', self.showTutorialDialog, None, 'help', u'Show demos')
-        showInfo = action('&Information', self.showInfoDialog, None, 'help', u'Information')
+        showInfo = action('&Informação', self.showInfoDialog, None, 'Ajudar', u'Informação')
 
         zoom = QWidgetAction(self)
         zoom.setDefaultWidget(self.zoomWidget)
         self.zoomWidget.setWhatsThis(
-            u"Zoom in or out of the image. Also accessible with"
-            " %s and %s from the canvas." % (fmtShortcut("Ctrl+[-+]"),
+            u"Aumentar ou diminuir o zoom de imagem. Também é acessível com"
+            " %s e %s de tela." % (fmtShortcut("Ctrl+[-+]"),
                                              fmtShortcut("Ctrl+Wheel")))
         self.zoomWidget.setEnabled(False)
 
-        zoomIn = action('Zoom &In', partial(self.addZoom, 10),
-                        'Ctrl++', 'zoom-in', u'Increase zoom level', enabled=False)
-        zoomOut = action('&Zoom Out', partial(self.addZoom, -10),
-                         'Ctrl+-', 'zoom-out', u'Decrease zoom level', enabled=False)
-        zoomOrg = action('&Original size', partial(self.setZoom, 100),
-                         'Ctrl+=', 'zoom', u'Zoom to original size', enabled=False)
-        fitWindow = action('&Fit Window', self.setFitWindow,
-                           'Ctrl+F', 'fit-window', u'Zoom follows window size',
+        zoomIn = action('&Aumentar o zoom', partial(self.addZoom, 10),
+                        'Ctrl++', 'Aumentar o zoom', u'Aumentar o nível de zoom', enabled=False)
+        zoomOut = action('&Diminuir o zoom', partial(self.addZoom, -10),
+                         'Ctrl+-', 'Diminuir o zoom', u'Diminuir o nível de zoom', enabled=False)
+        zoomOrg = action('&Tamanho original', partial(self.setZoom, 100),
+                         'Ctrl+=', 'Zoom', u'Ampliar para o tamanho original', enabled=False)
+        fitWindow = action('&Ajuste de janela', self.setFitWindow,
+                           'Ctrl+F', 'Ajuste de janela', u'Zoom segue o tamanho de janela',
                            checkable=True, enabled=False)
-        fitWidth = action('Fit &Width', self.setFitWidth,
-                          'Ctrl+Shift+F', 'fit-width', u'Zoom follows window width',
+        fitWidth = action('Adaptar &Largura', self.setFitWidth,
+                          'Ctrl+Shift+F', 'Adaptar a largura', u'Zoom segue a largura de janela',
                           checkable=True, enabled=False)
         # Group zoom controls into a list for easier toggling.
         zoomActions = (self.zoomWidget, zoomIn, zoomOut,
@@ -309,20 +308,20 @@ class MainWindow(QMainWindow, WindowMixin):
             self.MANUAL_ZOOM: lambda: 1,
         }
 
-        edit = action('&Edit Label', self.editLabel,
-                      'Ctrl+E', 'edit', u'Modify the label of the selected Box',
+        edit = action('&Editar a etiqueta', self.editLabel,
+                      'Ctrl+E', 'Editar', u'Alterar a etiqueta de caixa selecionada',
                       enabled=False)
         self.editButton.setDefaultAction(edit)
 
-        shapeLineColor = action('Shape &Line Color', self.chshapeLineColor,
-                                icon='color_line', tip=u'Change the line color for this specific shape',
+        shapeLineColor = action('A cor de linha de forma', self.chshapeLineColor,
+                                icon='Cor de linha', tip=u'Alterar a cor de linha para esta forma específica',
                                 enabled=False)
-        shapeFillColor = action('Shape &Fill Color', self.chshapeFillColor,
-                                icon='color', tip=u'Change the fill color for this specific shape',
+        shapeFillColor = action('A cor de preenchimento de forma', self.chshapeFillColor,
+                                icon='color', tip=u'Alterar a cor de preenchimento para esta forma específica',
                                 enabled=False)
 
         labels = self.dock.toggleViewAction()
-        labels.setText('Show/Hide Label Panel')
+        labels.setText('Mostrar/Esconder painel de etiqueta')
         labels.setShortcut('Ctrl+Shift+L')
 
         # Lavel list context menu.
@@ -334,7 +333,7 @@ class MainWindow(QMainWindow, WindowMixin):
 
         # Store actions for further handling.
         self.actions = struct(save=save, saveAs=saveAs, open=open, close=close, resetAll = resetAll,
-                              lineColor=color1, create=create, delete=delete, edit=edit,
+                              lineColor=color1, create=create, delete=delete, edit=edit,copy=copy,
                               createMode=createMode, editMode=editMode, advancedMode=advancedMode,
                               shapeLineColor=shapeLineColor, shapeFillColor=shapeFillColor,
                               zoom=zoom, zoomIn=zoomIn, zoomOut=zoomOut, zoomOrg=zoomOrg,
@@ -355,23 +354,23 @@ class MainWindow(QMainWindow, WindowMixin):
         self.menus = struct(
          #   file=self.menu('&File'),
          #   edit=self.menu('&Edit'),
-            view=self.menu('&View'),
+            view=self.menu('&Visualização'),
          #   help=self.menu('&Help'),
-            recentFiles=QMenu('Open &Recent'),
+            recentFiles=QMenu('Abrir o &recente'),
             labelList=labelMenu)
 
         # Auto saving : Enable auto saving if pressing next
-        self.autoSaving = QAction("Auto Saving", self)
+        self.autoSaving = QAction("Gravar automaticamente", self)
         self.autoSaving.setCheckable(True)
         self.autoSaving.setChecked(settings.get(SETTING_AUTO_SAVE, False))
         # Sync single class mode from PR#106
-        self.singleClassMode = QAction("Single Class Mode", self)
+        self.singleClassMode = QAction("Modo de única classe", self)
         self.singleClassMode.setShortcut("Ctrl+Shift+S")
         self.singleClassMode.setCheckable(True)
         self.singleClassMode.setChecked(settings.get(SETTING_SINGLE_CLASS, False))
         self.lastLabel = None
         # Add option to enable/disable labels being painted at the top of bounding boxes
-        self.paintLabelsOption = QAction("Paint Labels", self)
+        self.paintLabelsOption = QAction("Pintar Etiquetas", self)
         self.paintLabelsOption.setShortcut("Ctrl+Shift+P")
         self.paintLabelsOption.setCheckable(True)
         self.paintLabelsOption.setChecked(settings.get(SETTING_PAINT_LABEL, False))
@@ -379,7 +378,7 @@ class MainWindow(QMainWindow, WindowMixin):
 
       #  addActions(self.menus.file,
       #             (open, opendir, changeSavedir, openAnnotation, self.menus.recentFiles, save,  saveAs, close, resetAll, quit))
-       # addActions(self.menus.help, (help, showInfo))
+       #= addActions(self.menus.help, (help, showInfo))
         addActions(self.menus.view, (
             self.autoSaving,
          #   self.singleClassMode,
@@ -394,10 +393,10 @@ class MainWindow(QMainWindow, WindowMixin):
         # Custom context menu for the canvas widget:
         addActions(self.canvas.menus[0], self.actions.beginnerContext)
         addActions(self.canvas.menus[1], (
-            action('&Copy here', self.copyShape),
-            action('&Move here', self.moveShape)))
+            action('&Copiar aqui', self.copyShape),
+            action('&Mover aqui', self.moveShape)))
 
-        self.tools = self.toolbar('Tools')
+        self.tools = self.toolbar('Ferramenta')
         self.actions.beginner = (
             open, opendir, changeSavedir, openNextImg, openPrevImg,  save,  None, create, delete, None,
             zoomIn, zoom, zoomOut, fitWindow, fitWidth)
@@ -407,7 +406,7 @@ class MainWindow(QMainWindow, WindowMixin):
             createMode, editMode, None,
             hideAll, showAll)
 
-        self.statusBar().showMessage('%s started.' % __appname__)
+        self.statusBar().showMessage('%s Começar.' % __appname__)
         self.statusBar().show()
 
         # Application state.
@@ -438,7 +437,7 @@ class MainWindow(QMainWindow, WindowMixin):
         self.lastOpenDir = ustr(settings.get(SETTING_LAST_OPEN_DIR, None))
         if self.defaultSaveDir is None and saveDir is not None and os.path.exists(saveDir):
             self.defaultSaveDir = saveDir
-            self.statusBar().showMessage('%s started. Annotation will be saved to %s' %
+            self.statusBar().showMessage('%s Começar. Anotação será salvada to %s' %
                                          (__appname__, self.defaultSaveDir))
             self.statusBar().show()
 
@@ -484,14 +483,14 @@ class MainWindow(QMainWindow, WindowMixin):
     def set_format(self, save_format):
         if save_format == FORMAT_PASCALVOC:
             self.actions.save_format.setText(FORMAT_PASCALVOC)
-            self.actions.save_format.setIcon(newIcon("format_voc"))
+            self.actions.save_format.setIcon(newIcon("formato voc"))
             self.usingPascalVocFormat = True
             self.usingYoloFormat = False
             LabelFile.suffix = XML_EXT
 
         elif save_format == FORMAT_YOLO:
             self.actions.save_format.setText(FORMAT_YOLO)
-            self.actions.save_format.setIcon(newIcon("format_yolo"))
+            self.actions.save_format.setIcon(newIcon("formato yolo"))
             self.usingPascalVocFormat = False
             self.usingYoloFormat = True
             LabelFile.suffix = TXT_EXT
@@ -645,7 +644,7 @@ class MainWindow(QMainWindow, WindowMixin):
         files = [f for f in self.recentFiles if f !=
                  currFilePath and exists(f)]
         for i, f in enumerate(files):
-            icon = newIcon('labels')
+            icon = newIcon('Etiqueta')
             action = QAction(
                 icon, '&%d %s' % (i + 1, QFileInfo(f).fileName()), self)
             action.triggered.connect(partial(self.loadRecent, f))
@@ -729,7 +728,7 @@ class MainWindow(QMainWindow, WindowMixin):
 
     def remLabel(self, shape):
         if shape is None:
-            # print('rm empty label')
+          #  print('rm empty label')
             return
         item = self.shapesToItems[shape]
         self.labelList.takeItem(self.labelList.row(item))
@@ -966,11 +965,11 @@ class MainWindow(QMainWindow, WindowMixin):
                 try:
                     self.labelFile = LabelFile(unicodeFilePath)
                 except LabelFileError as e:
-                    self.errorMessage(u'Error opening file',
+                    self.errorMessage(u'Falha em abrir o arquivo',
                                       (u"<p><b>%s</b></p>"
-                                       u"<p>Make sure <i>%s</i> is a valid label file.")
+                                       u"<p>Confirme que <i>%s</i> é um arquivo válido de etiqueta.")
                                       % (e, unicodeFilePath))
-                    self.status("Error reading %s" % unicodeFilePath)
+                    self.status("Falha em ler %s" % unicodeFilePath)
                     return False
                 self.imageData = self.labelFile.imageData
                 self.lineColor = QColor(*self.labelFile.lineColor)
@@ -985,11 +984,11 @@ class MainWindow(QMainWindow, WindowMixin):
 
             image = QImage.fromData(self.imageData)
             if image.isNull():
-                self.errorMessage(u'Error opening file',
-                                  u"<p>Make sure <i>%s</i> is a valid image file." % unicodeFilePath)
-                self.status("Error reading %s" % unicodeFilePath)
+                self.errorMessage(u'Falha em abrir o arquivo',
+                                  u"<p>Confirme que<i>%s</i> é um arquivo válido de etiqueta." % unicodeFilePath)
+                self.status("Falha em ler %s" % unicodeFilePath)
                 return False
-            self.status("Loaded %s" % os.path.basename(unicodeFilePath))
+            self.status("Carregado %s" % os.path.basename(unicodeFilePath))
             self.image = image
             self.filePath = unicodeFilePath
             self.canvas.loadPixmap(QPixmap.fromImage(image))
@@ -1043,7 +1042,7 @@ class MainWindow(QMainWindow, WindowMixin):
         super(MainWindow, self).resizeEvent(event)
 
     def paintCanvas(self):
-        assert not self.image.isNull(), "cannot paint null image"
+        assert not self.image.isNull(), "Não pode pintar a imagem nula"
         self.canvas.scale = 0.01 * self.zoomWidget.value()
         self.canvas.adjustSize()
         self.canvas.update()
@@ -1126,27 +1125,27 @@ class MainWindow(QMainWindow, WindowMixin):
             path = '.'
 
         dirpath = ustr(QFileDialog.getExistingDirectory(self,
-                                                       '%s - Save annotations to the directory' % __appname__, path,  QFileDialog.ShowDirsOnly
+                                                       '%s - Salvar anotações para diretório' % __appname__, path,  QFileDialog.ShowDirsOnly
                                                        | QFileDialog.DontResolveSymlinks))
 
         if dirpath is not None and len(dirpath) > 1:
             self.defaultSaveDir = dirpath
 
-        self.statusBar().showMessage('%s . Annotation will be saved to %s' %
-                                     ('Change saved folder', self.defaultSaveDir))
+        self.statusBar().showMessage('%s . Anotação será salvada to %s' %
+                                     ('Alterar a pasta de salvamento', self.defaultSaveDir))
         self.statusBar().show()
 
     def openAnnotationDialog(self, _value=False):
         if self.filePath is None:
-            self.statusBar().showMessage('Please select image first')
+            self.statusBar().showMessage('Selecione primeiro a imagem')
             self.statusBar().show()
             return
 
         path = os.path.dirname(ustr(self.filePath))\
             if self.filePath else '.'
         if self.usingPascalVocFormat:
-            filters = "Open Annotation XML file (%s)" % ' '.join(['*.xml'])
-            filename = ustr(QFileDialog.getOpenFileName(self,'%s - Choose a xml file' % __appname__, path, filters))
+            filters = "Abrir XML arquivo (%s)de anotação." % ' '.join(['*.xml'])
+            filename = ustr(QFileDialog.getOpenFileName(self,'%s - Selecionar o arquivo XML' % __appname__, path, filters))
             if filename:
                 if isinstance(filename, (tuple, list)):
                     filename = filename[0]
@@ -1163,7 +1162,7 @@ class MainWindow(QMainWindow, WindowMixin):
             defaultOpenDirPath = os.path.dirname(self.filePath) if self.filePath else '.'
 
         targetDirPath = ustr(QFileDialog.getExistingDirectory(self,
-                                                     '%s - Open Directory' % __appname__, defaultOpenDirPath,
+                                                     '%s - Abrir diretório' % __appname__, defaultOpenDirPath,
                                                      QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks))
         self.importDirImages(targetDirPath)
 
@@ -1255,9 +1254,11 @@ class MainWindow(QMainWindow, WindowMixin):
         if not self.mayContinue():
             return
         path = os.path.dirname(ustr(self.filePath)) if self.filePath else '.'
+
         formats = ['*.%s' % fmt.data().decode("ascii").lower() for fmt in QImageReader.supportedImageFormats()]
-        filters = "Image & Label files (%s)" % ' '.join(formats + ['*%s' % LabelFile.suffix])
-        filename = QFileDialog.getOpenFileName(self, '%s - Choose Image or Label file' % __appname__, path, filters)
+
+        filters = "Imagem & Arquivo de etiqueta (%s)" % ' '.join(formats + ['*%s' % LabelFile.suffix])
+        filename = QFileDialog.getOpenFileName(self, '%s - Selecionar a imagem ou arquivo de etiqueta' % __appname__, path, filters)
         if filename:
             if isinstance(filename, (tuple, list)):
                 filename = filename[0]
@@ -1279,12 +1280,12 @@ class MainWindow(QMainWindow, WindowMixin):
                            else self.saveFileDialog())
 
     def saveFileAs(self, _value=False):
-        assert not self.image.isNull(), "cannot save empty image"
+        assert not self.image.isNull(), "Não pode salvar a imagem vazia"
         self._saveFile(self.saveFileDialog())
 
     def saveFileDialog(self):
-        caption = '%s - Choose File' % __appname__
-        filters = 'File (*%s)' % LabelFile.suffix
+        caption = '%s - Selecionar o arquivo' % __appname__
+        filters = 'Arquivos (*%s)' % LabelFile.suffix
         openDialogPath = self.currentPath()
         dlg = QFileDialog(self, caption, openDialogPath, filters)
         dlg.setDefaultSuffix(LabelFile.suffix[1:])
@@ -1300,7 +1301,7 @@ class MainWindow(QMainWindow, WindowMixin):
     def _saveFile(self, annotationFilePath):
         if annotationFilePath and self.saveLabels(annotationFilePath):
             self.setClean()
-            self.statusBar().showMessage('Saved to  %s' % annotationFilePath)
+            self.statusBar().showMessage('Salvado para  %s' % annotationFilePath)
             self.statusBar().show()
 
     def closeFile(self, _value=False):
@@ -1323,8 +1324,8 @@ class MainWindow(QMainWindow, WindowMixin):
 
     def discardChangesDialog(self):
         yes, no = QMessageBox.Yes, QMessageBox.No
-        msg = u'You have unsaved changes, proceed anyway?'
-        return yes == QMessageBox.warning(self, u'Attention', msg, yes | no)
+        msg = u'Tem alterações para salvar, continue na mesma?'
+        return yes == QMessageBox.warning(self, u'Atenção', msg, yes | no)
 
     def errorMessage(self, title, message):
         return QMessageBox.critical(self, title,
@@ -1334,7 +1335,7 @@ class MainWindow(QMainWindow, WindowMixin):
         return os.path.dirname(self.filePath) if self.filePath else '.'
 
     def chooseColor1(self):
-        color = self.colorDialog.getColor(self.lineColor, u'Choose line color',
+        color = self.colorDialog.getColor(self.lineColor, u'Selecionar a cor de linha',
                                           default=DEFAULT_LINE_COLOR)
         if color:
             self.lineColor = color
@@ -1351,7 +1352,7 @@ class MainWindow(QMainWindow, WindowMixin):
                 action.setEnabled(False)
 
     def chshapeLineColor(self):
-        color = self.colorDialog.getColor(self.lineColor, u'Choose line color',
+        color = self.colorDialog.getColor(self.lineColor, u'Selecionar a cor de linha',
                                           default=DEFAULT_LINE_COLOR)
         if color:
             self.canvas.selectedShape.line_color = color
@@ -1359,7 +1360,7 @@ class MainWindow(QMainWindow, WindowMixin):
             self.setDirty()
 
     def chshapeFillColor(self):
-        color = self.colorDialog.getColor(self.fillColor, u'Choose fill color',
+        color = self.colorDialog.getColor(self.fillColor, u'Selecionar a cor de preenchimento',
                                           default=DEFAULT_FILL_COLOR)
         if color:
             self.canvas.selectedShape.fill_color = color
