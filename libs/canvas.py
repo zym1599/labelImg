@@ -31,7 +31,7 @@ class Canvas(QWidget):
 
     CREATE, EDIT = list(range(2))
 
-    epsilon = 6.0
+    epsilon = 11.0
 
     def __init__(self, *args, **kwargs):
         super(Canvas, self).__init__(*args, **kwargs)
@@ -119,7 +119,7 @@ class Canvas(QWidget):
                     # Don't allow the user to draw outside the pixmap.
                     # Project the point to the pixmap's edges.
                     pos = self.intersectionPoint(self.current[-1], pos)
-                elif len(self.current) > 0 and self.closeEnough(pos, self.current[0]):
+                elif len(self.current) > 1 and self.closeEnough(pos, self.current[0]):
                     # Attract line to starting point and colorise to alert the
                     # user:
                     pos = self.current[0]
@@ -163,7 +163,7 @@ class Canvas(QWidget):
         # - Highlight shapes
         # - Highlight vertex
         # Update shape/vertex fill and tooltip value accordingly.
-        self.setToolTip("Image")
+        self.setToolTip("Imagem")
         for shape in reversed([s for s in self.shapes if self.isVisible(s)]):
             # Look for a nearby vertex to highlight. If that fails,
             # check if we happen to be inside a shape.
@@ -174,7 +174,7 @@ class Canvas(QWidget):
                 self.hVertex, self.hShape = index, shape
                 shape.highlightVertex(index, shape.MOVE_VERTEX)
                 self.overrideCursor(CURSOR_POINT)
-                self.setToolTip("Click & drag to move point")
+                self.setToolTip("Clicar & arrastar para mover o ponto")
                 self.setStatusTip(self.toolTip())
                 self.update()
                 break
@@ -183,7 +183,7 @@ class Canvas(QWidget):
                     self.hShape.highlightClear()
                 self.hVertex, self.hShape = None, shape
                 self.setToolTip(
-                    "Click & drag to move shape '%s'" % shape.label)
+                    "Clicar & arrastar para mover a forma '%s'" % shape.label)
                 self.setStatusTip(self.toolTip())
                 self.overrideCursor(CURSOR_GRAB)
                 self.update()
@@ -219,7 +219,7 @@ class Canvas(QWidget):
                 # Cancel the move by deleting the shadow copy.
                 self.selectedShapeCopy = None
                 self.repaint()
-        if ev.button() == Qt.LeftButton and self.selectedShape:
+        elif ev.button() == Qt.LeftButton and self.selectedShape:
             if self.selectedVertex():
                 self.overrideCursor(CURSOR_POINT)
             else:
@@ -252,7 +252,7 @@ class Canvas(QWidget):
             self.repaint()
 
     def handleDrawing(self, pos):
-        if self.current:
+        if self.current and self.current.reachMaxPoints() is False:
             initPos = self.current[0]
             minX = initPos.x()
             minY = initPos.y()
@@ -269,6 +269,7 @@ class Canvas(QWidget):
             self.line.points = [pos, pos]
             self.setHiding()
             self.drawingPolygon.emit(True)
+            self.update()
 
     def setHiding(self, enable=True):
         self._hideBackround = self.hideBackround if enable else False
@@ -322,18 +323,18 @@ class Canvas(QWidget):
         shiftPos = pos - point
         shape.moveVertexBy(index, shiftPos)
 
-        # lindex = (index + 1) % 4
-        # rindex = (index + 3) % 4
-        # lshift = None
-        # rshift = None
-        # if index % 2 == 0:
-        #     rshift = QPointF(shiftPos.x(), 0)
-        #     lshift = QPointF(0, shiftPos.y())
-        # else:
-        #     lshift = QPointF(shiftPos.x(), 0)
-        #     rshift = QPointF(0, shiftPos.y())
-        # shape.moveVertexBy(rindex, rshift)
-        # shape.moveVertexBy(lindex, lshift)
+        lindex = (index + 1) % 4
+        rindex = (index + 3) % 4
+        lshift = None
+        rshift = None
+        if index % 2 == 0:
+            rshift = QPointF(shiftPos.x(), 0)
+            lshift = QPointF(0, shiftPos.y())
+        else:
+            lshift = QPointF(shiftPos.x(), 0)
+            rshift = QPointF(0, shiftPos.y())
+        shape.moveVertexBy(rindex, rshift)
+        shape.moveVertexBy(lindex, lshift)
 
     def boundedMoveShape(self, shape, pos):
         if self.outOfPixmap(pos):
@@ -427,8 +428,7 @@ class Canvas(QWidget):
             p.setPen(self.drawingRectColor)
             brush = QBrush(Qt.BDiagPattern)
             p.setBrush(brush)
-            #p.drawRect(leftTop.x(), leftTop.y(), rectWidth, rectHeight)
-            p.drawPoint(leftTop.x(), leftTop.y())
+            p.drawRect(leftTop.x(), leftTop.y(), rectWidth, rectHeight)
 
         if self.drawing() and not self.prevPoint.isNull() and not self.outOfPixmap(self.prevPoint):
             p.setPen(QColor(0, 0, 0))
@@ -466,11 +466,11 @@ class Canvas(QWidget):
 
     def finalise(self):
         assert self.current
-        # if self.current.points[0] == self.current.points[-1]:
-        #     self.current = None
-        #     self.drawingPolygon.emit(False)
-        #     self.update()
-        #     return
+        if self.current.points[0] == self.current.points[-1]:
+            self.current = None
+            self.drawingPolygon.emit(False)
+            self.update()
+            return
 
         self.current.close()
         self.shapes.append(self.current)
@@ -568,47 +568,47 @@ class Canvas(QWidget):
     def keyPressEvent(self, ev):
         key = ev.key()
         if key == Qt.Key_Escape and self.current:
-            print('ESC press')
+            print('Pressione o botão ESC')
             self.current = None
             self.drawingPolygon.emit(False)
             self.update()
         elif key == Qt.Key_Return and self.canCloseShape():
             self.finalise()
         elif key == Qt.Key_Left and self.selectedShape:
-            self.moveOnePixel('Left')
+            self.moveOnePixel('Esquerdo')
         elif key == Qt.Key_Right and self.selectedShape:
-            self.moveOnePixel('Right')
+            self.moveOnePixel('Direito')
         elif key == Qt.Key_Up and self.selectedShape:
-            self.moveOnePixel('Up')
+            self.moveOnePixel('Para cima')
         elif key == Qt.Key_Down and self.selectedShape:
-            self.moveOnePixel('Down')
+            self.moveOnePixel('Para baxio')
 
     def moveOnePixel(self, direction):
         # print(self.selectedShape.points)
-        if direction == 'Left' and not self.moveOutOfBound(QPointF(-1.0, 0)):
+        if direction == 'Esquerdo' and not self.moveOutOfBound(QPointF(-1.0, 0)):
             # print("move Left one pixel")
             self.selectedShape.points[0] += QPointF(-1.0, 0)
-            # self.selectedShape.points[1] += QPointF(-1.0, 0)
-            # self.selectedShape.points[2] += QPointF(-1.0, 0)
-            # self.selectedShape.points[3] += QPointF(-1.0, 0)
-        elif direction == 'Right' and not self.moveOutOfBound(QPointF(1.0, 0)):
+            self.selectedShape.points[1] += QPointF(-1.0, 0)
+            self.selectedShape.points[2] += QPointF(-1.0, 0)
+            self.selectedShape.points[3] += QPointF(-1.0, 0)
+        elif direction == 'Direito' and not self.moveOutOfBound(QPointF(1.0, 0)):
             # print("move Right one pixel")
             self.selectedShape.points[0] += QPointF(1.0, 0)
-            # self.selectedShape.points[1] += QPointF(1.0, 0)
-            # self.selectedShape.points[2] += QPointF(1.0, 0)
-            # self.selectedShape.points[3] += QPointF(1.0, 0)
-        elif direction == 'Up' and not self.moveOutOfBound(QPointF(0, -1.0)):
+            self.selectedShape.points[1] += QPointF(1.0, 0)
+            self.selectedShape.points[2] += QPointF(1.0, 0)
+            self.selectedShape.points[3] += QPointF(1.0, 0)
+        elif direction == 'Para cima' and not self.moveOutOfBound(QPointF(0, -1.0)):
             # print("move Up one pixel")
             self.selectedShape.points[0] += QPointF(0, -1.0)
-            # self.selectedShape.points[1] += QPointF(0, -1.0)
-            # self.selectedShape.points[2] += QPointF(0, -1.0)
-            # self.selectedShape.points[3] += QPointF(0, -1.0)
-        elif direction == 'Down' and not self.moveOutOfBound(QPointF(0, 1.0)):
+            self.selectedShape.points[1] += QPointF(0, -1.0)
+            self.selectedShape.points[2] += QPointF(0, -1.0)
+            self.selectedShape.points[3] += QPointF(0, -1.0)
+        elif direction == 'Para baxio' and not self.moveOutOfBound(QPointF(0, 1.0)):
             # print("move Down one pixel")
             self.selectedShape.points[0] += QPointF(0, 1.0)
-            # self.selectedShape.points[1] += QPointF(0, 1.0)
-            # self.selectedShape.points[2] += QPointF(0, 1.0)
-            # self.selectedShape.points[3] += QPointF(0, 1.0)
+            self.selectedShape.points[1] += QPointF(0, 1.0)
+            self.selectedShape.points[2] += QPointF(0, 1.0)
+            self.selectedShape.points[3] += QPointF(0, 1.0)
         self.shapeMoved.emit()
         self.repaint()
 
