@@ -360,7 +360,7 @@ class MainWindow(QMainWindow, WindowMixin):
             labelList=labelMenu)
 
         # Auto saving : Enable auto saving if pressing next
-        self.autoSaving = QAction("Gravar automaticamente", self)
+        self.autoSaving = QAction("Auto Salvamento", self)
         self.autoSaving.setCheckable(True)
         self.autoSaving.setChecked(settings.get(SETTING_AUTO_SAVE, False))
         # Sync single class mode from PR#106
