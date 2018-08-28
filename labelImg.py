@@ -482,8 +482,8 @@ class MainWindow(QMainWindow, WindowMixin):
     ## Support Functions ##
     def set_format(self, save_format):
         if save_format == FORMAT_PASCALVOC:
-            self.actions.save_format.setText(FORMAT_PASCALVOC)
-            self.actions.save_format.setIcon(newIcon("formato voc"))
+         #   self.actions.save_format.setText(FORMAT_PASCALVOC)
+         #   self.actions.save_format.setIcon(newIcon("formato voc"))
             self.usingPascalVocFormat = True
             self.usingYoloFormat = False
             LabelFile.suffix = XML_EXT
@@ -972,8 +972,8 @@ class MainWindow(QMainWindow, WindowMixin):
                     self.status("Falha em ler %s" % unicodeFilePath)
                     return False
                 self.imageData = self.labelFile.imageData
-                self.lineColor = QColor(*self.labelFile.lineColor)
-                self.fillColor = QColor(*self.labelFile.fillColor)
+               # self.lineColor = QColor(*self.labelFile.lineColor)
+               # self.fillColor = QColor(*self.labelFile.fillColor)
                 self.canvas.verified = self.labelFile.verified
             else:
                 # Load image:
